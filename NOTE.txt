@@ -1,3 +1,6 @@
+SOURCE OF THIS TUTORIAL:
+https://www.youtube.com/watch?v=WLQDpY7lOLg
+
 IN EARLIER PHASE, RUNNING OF LARAVEL AND VUE HAS DIFFERENT COMMAND:
 LARAVEL: php artisan serve
 VUE JS: npm run dev
