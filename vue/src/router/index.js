@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import DefaultLayout from "../components/DefaultLayout.vue"
+import AuthLayout from "../components/AuthLayout.vue"
 import Login from "../views/Login.vue"
 import Dashboard from "../views/Dashboard.vue"
 import Registration from "../views/Registration.vue"
@@ -28,16 +29,25 @@ const routes = [
     },
     
     {
-        path: "/login",
-        name: "Login",
-        component: Login
+        path: "/auth",
+        redirect: "/login",
+        name: "Auth",
+        component: AuthLayout,
+        meta: { isGuest: true }, // THIS WILL BE USED FOR VALIDATION
+        children: [
+            {
+                path: "/login",
+                name: "Login",
+                component: Login
+            },
+            
+            {
+                path: "/register",
+                name: "Registration",
+                component: Registration
+            }
+        ]
     },
-    
-    {
-        path: "/register",
-        name: "Registration",
-        component: Registration
-    }
 ]
 
 const router = createRouter({
@@ -47,9 +57,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     // BELOW IS A SIMPLE VALIDATION
+    // IF NOT YET LOGGED IN, THEN USER HAS TO LOGIN BEFORE ACCESSING SPECIFIC PAGE
     if (to.meta.requiresAuth && !store.state.user.token) 
     {
         next({ name: "Login" })
+    }
+
+    // IN CASE THAT USER IS ALL READY LOGGED IN AND ACCIDENTALLY GOES TO LOGIN OR REGISTRATION PAGE, WE'LL REDIRECT TO Dashboard PAGE
+    else if (store.state.user.token && (to.meta.isGuest)) 
+    {
+        next({ name: "Dashboard" })
     }
 
     else 
