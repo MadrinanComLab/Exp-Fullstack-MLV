@@ -13,7 +13,7 @@
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                <!--/ <router-link
+                <router-link
                   v-for="item in navigation"
                   :key="item.name"
                   :to="item.to"
@@ -24,8 +24,8 @@
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'px-3 py-2 rounded-md text-sm font-medium',
                   ]"
-                  >{{ user.name }}
-                </router-link> /-->
+                  >{{ item.name }}
+                </router-link> <!--/ /-->
               </div>
             </div>
           </div>
@@ -43,12 +43,12 @@
                       <div
                         class="text-left text-base font-medium leading-none text-white"
                       >
-                        <!--/ {{ user.name }} /-->
+                        {{ user.name }}<!--/  /-->
                       </div>
                       <div
                         class="text-sm font-medium leading-none text-gray-400"
                       >
-                        <!--/ {{ user.email }} /-->
+                        {{ user.email }} <!--/ /-->
                       </div>
                     </div>
                     <svg
@@ -107,7 +107,7 @@
 
       <DisclosurePanel class="md:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <!--/ <router-link
+          <router-link
             v-for="item in navigation"
             :key="item.name"
             :to="item.to"
@@ -119,7 +119,7 @@
               'block px-3 py-2 rounded-md text-base font-medium',
             ]"
             >{{ item.name }}
-          </router-link> /-->
+          </router-link> <!--/ /-->
         </div>
         <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
@@ -141,10 +141,10 @@
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
-                <!--/ {{ user.name }}/-->
+                {{ user.name }}<!--/ /-->
               </div>
               <div class="text-sm font-medium leading-none text-gray-400">
-                <!--/ {{ user.email }}/-->
+                {{ user.email }}<!--/ /-->
               </div>
             </div>
           </div>
@@ -169,24 +169,6 @@
 
 <script>
 import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/vue";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
-import { useStore } from "vuex";
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-const navigation = [
-  { name: "Dashboard", to: { name: "Dashboard" } },
-  { name: "survey", to: { name: "Survey" } },
-];
-export default {
-  components: {
     Disclosure,
     DisclosureButton,
     DisclosurePanel,
@@ -194,19 +176,49 @@ export default {
     MenuButton,
     MenuItem,
     MenuItems,
-    BellIcon,
-    MenuIcon,
-    XIcon,
-    Notification,
-  },
+} from "@headlessui/vue";
+import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
+import { useStore } from "vuex";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
 
-  setup() {
-      const store = useStore()
+const navigation = [
+    { name: "Dashboard", to: { name: "Dashboard" } },
+    { name: "Survey", to: { name: "Survey" } },
+];
 
-      return {
-          user: computed(() => store.state.user.data)
-      }
-  }
+export default {
+    components: {
+        Disclosure,
+        DisclosureButton,
+        DisclosurePanel,
+        Menu,
+        MenuButton,
+        MenuItem,
+        MenuItems,
+        BellIcon,
+        MenuIcon,
+        XIcon,
+        Notification,
+    },
+
+    setup() {
+        const store = useStore()
+        const router = useRouter()
+
+        const logout = () => {
+            store.commit("logout")
+            router.push({
+                name: "Login"
+            })
+        }
+
+        return {
+            user: computed(() => store.state.user.data),
+            navigation,
+            logout
+        }
+    }
   /* setup() {
     const store = useStore();
     const router = useRouter();
