@@ -1,3 +1,7 @@
+IN EARLIER PHASE, RUNNING OF LARAVEL AND VUE HAS DIFFERENT COMMAND:
+LARAVEL: php artisan serve
+VUE JS: npm run dev
+
 TO CREATE THIS LARAVEL PROJECT, WE RUN:
 composer create-project laravel/laravel laravel-vue-survey
 
@@ -15,3 +19,48 @@ FIRST, WE RUN: npm init vite vue
 
 THEN YOU HAVE TO SELECT A FRAMEWORK THEN CHOOSE vue
 THEN YOU'LL BE SELECTING A VARIANT, CHOOSE vue
+
+AFTER SETTING UP VUE, GO TO VUE FOLDER BY RUNNING COMMAND:
+cd vue
+
+AFTER THAT RUN THIS COMMAND (NOTE YOU MUST BE INSIDE FOLDER OF VUE, MENTIONED ABOVE):
+npm i && npm run dev
+
+STILL AT VUE FOLDER,  RUN THIS COMMAND:
+npm install -S vuex@next
+
+NOW, CREATE A FOLDER IN vue/src/ NAMED "store"
+IN THIS NEW FOLDER CREATE A FILE index.js
+
+STILL IN VUE FOLDER, RUN THESE COMMAND TO INSTALL TAILWIND CSS:
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+THEN WE MODIFY THE content IN tailwind.config.js 
+NOTE ABOUT MODIFYING tailwind.config.js, YOU MUST FOLLOW THE DOCUMENTATION FOR VITE:
+https://tailwindcss.com/docs/guides/vite
+
+WE CREATE index.css IN src FOLER (THIS IS WHERE YOU CAN SEE App.vue)
+AND PASTE THESE TAILWIND UTILITIES:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+THEN IMPORT THIS FILE TO main.js (YOU CAN SEE main.js IN src FOLDER ALONG WITH App.vue)
+
+STILL ON vue FOLDER, RUN THIS COMMAND:
+npm install @headlessui/vue @heroicons/vue @tailwindcss/forms -S
+
+WE COPY A CODE IN THIS LINK:
+https://tailwindui.com/components/application-ui/forms/sign-in-forms
+
+PASTE THE CODE INSIDE <template> IN HelloWorld.vue COMPONENT AND MODIFY tailwind.config.js AND ADD THIS IN PLUGINS
+require("@tailwindcss/forms")
+
+STILL ON VUE FOLDER RUN THIS:
+npm i -S vue-router@next
+
+WE CREATED views FOLDER IN src FOLDER AND CREATE THE FF. COMPONENT:
+Dashboard.vue
+Login.vue
+Registration.vue
