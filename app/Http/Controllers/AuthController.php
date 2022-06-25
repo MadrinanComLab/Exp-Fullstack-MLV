@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,36 @@ class AuthController extends Controller
             "password" => bcrypt($data["password"])
         ]);
 
+        $token = $user->createToken("main")->plainTextToken;
+
+        return response([
+            "user" => $user,
+            "token" => $token
+        ]);
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            "email" => "required|email|string|exists:users,email",
+            "password" => [
+                "required"
+            ],
+            "remember" => "boolean"
+        ]);
+
+        $remember = $credentials["remember"] ?? false;
+        unset($credentials["remember"]);
+
+        // THE IF STATMENT BELOW WILL CHECK IF THE INPUTTED CREDENTIALS IS CORRECT/EXIST
+        if (!Auth::attempt($credentials, $remember))
+        {
+            return response([
+                "error" => "The provided credentials are not correct"
+            ], 422); // 422 IS HTTP STATUS CODE
+        }
+
+        $user = Auth::user();
         $token = $user->createToken("main")->plainTextToken;
 
         return response([

@@ -1,4 +1,5 @@
 import { createStore } from "vuex"
+import axiosClient from "../axios"
 
 const store = createStore({
     state: { // THIS IS WHAT WE CHANGE WHEN WE USE mutations
@@ -11,21 +12,40 @@ const store = createStore({
     actions: {
         register({ commit }, user)
         {
-            console.log("register in index.js was reached") // THIS WAS REACHED
-            // BELOW IS AN HTTP REQUEST
-            return fetch(`http://127.0.0.1:8000/api/register`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                method: "POST",
-                body: JSON.stringify(user),
-            })
-            .then((res) => res.json())
-            .then((res) => {
-                commit("setUser", res)
-                return res
-            })
+            return axiosClient.post(
+                "/register", // <-- THIS IS THE ROUTE WHERE WE WANT TO SEND DATA. SINCE THE BASE URL IS http://127.0.0.1:8000/api, THEN THIS REQUEST WILL GO TO: http://127.0.0.1:8000/api/register
+                user //<------- THIS CONTAINS OF DATA THAT WE WANT TO SEND TO http://127.0.0.1:8000/api/register
+                ).then(({ data }) => {
+                    commit("setUser", data) // YOU CAN SEE setUser IN MUTATION BELOW. setUser IS A FUNCTION AND data IS THE DATA WE WANT TO PASS
+                    return data
+                })
+
+            // CODE SNIPPET WAS THE FIRST METHOD WE USE ON HOW WE SEND REQUEST (DURING FIRST TESTING OF REGISTRATION), BUT SOON REPLACE BY AXIOS
+            // // CODE BELOW WILL SIMULATE A POST REQUEST...
+            // return fetch(`http://127.0.0.1:8000/api/register`, {
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         Accept: "application/json"
+            //     },
+            //     method: "POST",
+            //     body: JSON.stringify(user),
+            // })
+            // .then((res) => res.json())
+            // .then((res) => {
+            //     commit("setUser", res)
+            //     return res
+            // })
+        },
+
+        login({ commit }, user)
+        {
+            return axiosClient.post(
+                "/login", // <-- THIS IS THE ROUTE WHERE WE WANT TO SEND DATA. SINCE THE BASE URL IS http://127.0.0.1:8000/api, THEN THIS REQUEST WILL GO TO: http://127.0.0.1:8000/api/login
+                user //<------- THIS CONTAINS OF DATA THAT WE WANT TO SEND TO http://127.0.0.1:8000/api/login
+                ).then(({ data }) => {
+                    commit("setUser", data) // YOU CAN SEE setUser IN MUTATION BELOW. setUser IS A FUNCTION AND data IS THE DATA WE WANT TO PASS
+                    return data
+                })
         }
     },
     mutations: { // WE CHANGE STATE HERE IN mutations

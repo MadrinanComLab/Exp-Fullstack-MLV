@@ -49,7 +49,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup> // THE setup KEYWORD HERE IS REQUIRED...
 import store from "../store"
 import { useRouter } from "vue-router"
 
@@ -72,6 +72,3 @@ function register(ev)
     })
 }
 </script>
-
-<style scoped>
-</style>
