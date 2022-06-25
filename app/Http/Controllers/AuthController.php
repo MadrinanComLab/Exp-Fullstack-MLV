@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 
-class Controller extends Controller
+class AuthController extends Controller
 {
     public function register(Request $request)
     {
