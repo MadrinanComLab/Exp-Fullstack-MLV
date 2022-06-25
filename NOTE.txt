@@ -68,5 +68,19 @@ Dashboard.vue
 Login.vue
 Registration.vue
 
-WE'VE STOP ON 47:43
-NOTE: THE GOAL WAS TO UNDERSTAND HOW ARE WE GOING TO COMBINE LARAVEL, VUE JS AND TAILWIND CSS. JUST HANG IN THERE, WE CAN DO IT...
+ANOTHER COMPONENT WAS CREATED IN src/views:
+Dashboard.vue
+Survey.vue
+
+BOTH OF THESE COMPONENT WILL SHARE PageComponent.vue IN src/components
+
+AFTER THESE FOLLOWING IN FRONTEND, NOW WE'LL BACK IN BACKEND, WE'RE GOING TO CREATE PHP MIGRATION AND RUN THESE COMMAND (MAKE SURE YOU ARE IN ROOT DIRECTORY AND NOT IN vue):
+php artisan make:model Survey -m
+php artisan make:model SurveyQuestion -m
+php artisan make:model SurveyAnswer -m
+php artisan make:model SurveyQuestionAnswer -m
+
+AFTER CREATING THIS MIGRATIONS, WE'LL MODIFY THEM (database/migrations)
+
+AFTER DOING THE CHANGES IN MIGRATIONS, RUN THIS COMMAND:
+php artisan migrate
