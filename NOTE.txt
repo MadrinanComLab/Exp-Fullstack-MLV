@@ -3,7 +3,7 @@ https://www.youtube.com/watch?v=WLQDpY7lOLg
 
 IN EARLIER PHASE, RUNNING OF LARAVEL AND VUE HAS DIFFERENT COMMAND:
 LARAVEL: php artisan serve
-VUE JS: npm run dev
+VUE JS: npm run dev (GO TO VUE FOLDER FIRST, BEFORE RUNNING THIS COMMAND)
 
 TO CREATE THIS LARAVEL PROJECT, WE RUN:
 composer create-project laravel/laravel laravel-vue-survey
