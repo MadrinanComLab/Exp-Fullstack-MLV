@@ -8,7 +8,7 @@ const tempSurveys = [
         title: "Madriñan Computer Lab First 'Real' Fullstack App",
         slug: "madrian-computer-lab-first-real-fullstack-app",
         status: "draft",
-        image: "src/assets/MadriñanComLab.png",
+        image: "/src/assets/MadriñanComLab.png",
         description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
         created_at: "2021-12-20 18:00:00",
         updated_at: "2021-12-20 18:00:00",
