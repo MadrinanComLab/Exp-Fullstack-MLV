@@ -8,6 +8,7 @@
             <router-link :to="{name: 'Registration'}" class="font-medium text-indigo-600 hover:text-indigo-500">Register for free</router-link>
         </p>
         </div>
+
         <form class="mt-8 space-y-6" @submit="login">
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm -space-y-px">
@@ -28,6 +29,14 @@
             </div>
         </div>
 
+        <div class="flex items-center justify-between" v-show="errorMsg != ''">
+            <div class="flex items-center w-full">
+                <p class="text-center text-red-600 w-full">
+                    {{ errorMsg }}<!--/ NOTE: WE DID NOT DEFINE errorMsg.value HERE BECAUSE IN TEMPLATE WE DON'T NEED THAT, BUT IN JS IT DOES /-->
+                </p>
+            </div>
+        </div>
+        
         <div>
             <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -46,7 +55,9 @@
 <script setup> // THE setup KEYWORD HERE IS REQUIRED...
     import store from "../store"
     import { useRouter } from "vue-router"
+    import { ref } from "vue"
 
+    let errorMsg =  ref("")
     const router = useRouter()
     const user = {
         email: "",
@@ -63,6 +74,12 @@
                 router.push({
                     name: "Dashboard"
                 })
+            })
+            .catch(err => {
+                // WE CANNOT ASSIGN THE ERROR MESSAGE TO errorMsg DIRECTLY BECAUSE IT WAS USING ref()
+                // WHICH IS A NATURE OF COMPOSITION API
+                // INSTEAD THIS IS HOW WE ASSIGN IT
+                errorMsg.value = err.response.data.error
             })
     }
 </script>

@@ -100,8 +100,14 @@ FEW THINGS WE'VE ENCOUNTER AFTER THE FIRST INTEGRATION OF VUE AND LARAVEL:
 2.) CONTROLLERS IN App/Http/Controllers, MAKE SURE THAT YOUR NEW CONTROLLERS HAS NAME BASE ON WHAT IT WAS FILE NAME AND NOT THE DEFAULT 'Controller'
 3.) IN PASSWORD, IT MUST CONTAIN LOWER AND UPPERCASE, SYMBOL AND NUMBER
 
-YOUR ACCOUNT PASSWORD IN THIS DEMO APP: Website@dmin29
-janeDoe<3
+EXAMPLE ACCOUNT PASSWORD IN THIS DEMO APP: 
++----------------------------------+-------------------+
+| EMAIL                            | PASSWORD          |
++----------------------------------+-------------------+
+| johncliffordmadrinan@example.com | Website@dmin29    |
+| janedoe@example.com              | janeDoe<3         |
+| herbertsantos123@example.com     | pASSwORD#123      |
++----------------------------------+-------------------+
 
 CHANGES IN AuthController.php AND api.php HAS MADE
 AS WELL AS Login.vue
@@ -110,3 +116,5 @@ INSTALL axios IN VUE FOLDER, RUN THIS COMMAND:
 npm i -S axios
 
 THEN WE CREATE axios.js IN vue/src
+
+NOTE: AXIOS IS THE LIBRARY WE USE TO MAKE REQUEST FROM THE FRONT END
