@@ -1,12 +1,43 @@
 import { createStore } from "vuex"
 import axiosClient from "../axios"
 
+
+const tempSurveys = [
+    {
+        id: 100,
+        title: "Madriñan Computer Lab First 'Real' Fullstack App",
+        slug: "madrian-computer-lab-first-real-fullstack-app",
+        status: "draft",
+        image: "src/assets/MadriñanComLab.png",
+        description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
+        created_at: "2021-12-20 18:00:00",
+        updated_at: "2021-12-20 18:00:00",
+        expire_date: "2021-12-31 18:00:00",
+        questions: [
+            {
+                id: 1,
+                type: "select",
+                question: "From which country are you?",
+                description: null,
+                data: {
+                    options: [
+
+                    ]
+                }
+            }
+        ]
+    }
+]
+
+
 const store = createStore({
     state: { // THIS IS WHAT WE CHANGE WHEN WE USE mutations
         user: {
             data: {},
             token: sessionStorage.getItem("TOKEN")
-        }
+        },
+
+        surveys: tempSurveys
     },
     getters: {},
     actions: {

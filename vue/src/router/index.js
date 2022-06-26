@@ -5,6 +5,7 @@ import Login from "../views/Login.vue"
 import Dashboard from "../views/Dashboard.vue"
 import Registration from "../views/Registration.vue"
 import Survey from "../views/Survey.vue"
+import SurveyView from "../views/SurveyView.vue"
 import store from "../store"
 
 const routes = [
@@ -14,17 +15,10 @@ const routes = [
         component: DefaultLayout,
         meta: { requiresAuth: true }, // THIS WILL MAKE RESTRICTION IN ACCESSING DASHBOARD, IF USER HASN'T LOGGED IN, THEN HE/SHE CAN'T ACCESS THE PAGE
         children: [
-            {
-                path: "/dashboard",
-                name: "Dashboard",
-                component: Dashboard
-            },
-            
-            {
-                path: "/survey",
-                name: "Survey",
-                component: Survey
-            }
+            { path: "/dashboard", name: "Dashboard", component: Dashboard },
+            { path: "/survey", name: "Survey", component: Survey },
+            { path: "/survey/create", name: "SurveyCreate", component: SurveyView },
+            { path: "/survey/:id", name: "SurveyView", component: SurveyView }
         ]
     },
     
