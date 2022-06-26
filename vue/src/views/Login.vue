@@ -29,13 +29,15 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-between" v-show="errorMsg != ''">
-            <div class="flex items-center w-full">
-                <p class="text-center text-red-600 w-full">
-                    {{ errorMsg }}<!--/ NOTE: WE DID NOT DEFINE errorMsg.value HERE BECAUSE IN TEMPLATE WE DON'T NEED THAT, BUT IN JS IT DOES /-->
-                </p>
-            </div>
-        </div>
+        <p class="flex items-center justify-between py-3 px-5 bg-red-500 text-white rounded" v-show="errorMsg != ''">
+            {{ errorMsg }}<!--/ NOTE: WE DID NOT DEFINE errorMsg.value HERE BECAUSE IN TEMPLATE WE DON'T NEED THAT, BUT IN JS IT DOES /-->
+            <span @click="errorMsg = ''" class="h-8 w-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]">
+                <!--/ THE SVG BELOW WAS COPIED FROm HEROICONS: https://heroicons.com/ /-->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </span>
+        </p>
         
         <div>
             <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
