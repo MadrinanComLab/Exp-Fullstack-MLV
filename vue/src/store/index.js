@@ -18,7 +18,55 @@ const tempSurveys = [
                 id: 1,
                 type: "select",
                 question: "From which country are you?",
-                description: null,
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
+                data: {
+                    options: [
+
+                    ]
+                }
+            },
+
+            {
+                id: 1,
+                type: "select",
+                question: "From which country are you?",
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
+                data: {
+                    options: [
+
+                    ]
+                }
+            },
+            
+            {
+                id: 1,
+                type: "select",
+                question: "From which country are you?",
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
+                data: {
+                    options: [
+
+                    ]
+                }
+            },
+            
+            {
+                id: 1,
+                type: "select",
+                question: "From which country are you?",
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
+                data: {
+                    options: [
+
+                    ]
+                }
+            },
+            
+            {
+                id: 1,
+                type: "select",
+                question: "From which country are you?",
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
                 data: {
                     options: [
 
@@ -37,7 +85,8 @@ const store = createStore({
             token: sessionStorage.getItem("TOKEN")
         },
 
-        surveys: tempSurveys
+        surveys: [...tempSurveys],
+        questionTypes: [ "text", "select", "radio", "checkbox", "textarea" ]
     },
     getters: {},
     actions: {
