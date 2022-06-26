@@ -207,10 +207,12 @@ export default {
         const router = useRouter()
 
         const logout = () => {
-            store.commit("logout")
-            router.push({
-                name: "Login"
-            })
+            store.dispatch("logout")
+              .then(() => {
+                router.push({
+                    name: "Login"
+                })
+              })
         }
 
         return {
@@ -219,23 +221,6 @@ export default {
             logout
         }
     }
-  /* setup() {
-    const store = useStore();
-    const router = useRouter();
-    function logout() {
-      store.dispatch("logout").then(() => {
-        router.push({
-          name: "Login",
-        });
-      });
-    }
-    store.dispatch("getUser");
-    return {
-      user: computed(() => store.state.user.data),
-      navigation,
-      logout,
-    };
-  }, */
 };
 </script>
 

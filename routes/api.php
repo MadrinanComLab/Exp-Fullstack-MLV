@@ -15,8 +15,18 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// THIS IS THE DEFAULT FROM LARAVEL
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// THIS IS THE MODIFIED ONE WHEN WE CREATED LOGOUT FUNCTION IN AuthController.php
+// THIS IS CREATED INSTEAD OF COPY PASTING THE DEFAULT ONE FOR OTHER REQUEST
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get("/user", function(Request $request){
+        return $request->user();
+    });
+    Route::post("/logout", [AuthController::class, "logout"]);
 });
 
 Route::post("/register", [AuthController::class, "register"]);

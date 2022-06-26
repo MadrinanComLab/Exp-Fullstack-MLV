@@ -46,12 +46,21 @@ const store = createStore({
                     commit("setUser", data) // YOU CAN SEE setUser IN MUTATION BELOW. setUser IS A FUNCTION AND data IS THE DATA WE WANT TO PASS
                     return data
                 })
+        },
+
+        logout({ commit }) {
+            return axiosClient.post("logout")
+                .then(res => {
+                    commit("logout") // YOU CAN SEE logout IN MUTATION BELOW.
+                    return res
+                })
         }
     },
     mutations: { // WE CHANGE STATE HERE IN mutations
         logout: (state) => {
             state.user.data = {}
             state.user.token = null
+            sessionStorage.removeItem("TOKEN")
         },
 
         setUser: (state, userData) => {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    //===============================================================>>> REGISTER
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -36,6 +37,7 @@ class AuthController extends Controller
         ]);
     }
 
+    //===============================================================>>> LOGIN
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -64,5 +66,17 @@ class AuthController extends Controller
             "user" => $user,
             "token" => $token
         ]);
+    }
+    
+    //===============================================================>>> LOGOUT
+    public function logout(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        // THIS WILL REVOKE THE TOKEN THAT WAS USED TO AUTHENTICATE THE CURRENT REQUEST...
+        $user->currentAccessToken()->delete();
+
+        return response(['success' => true]);
     }
 }
