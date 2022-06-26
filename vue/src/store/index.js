@@ -21,7 +21,11 @@ const tempSurveys = [
                 description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
                 data: {
                     options: [
-
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
                     ]
                 }
             },
@@ -33,19 +37,11 @@ const tempSurveys = [
                 description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
                 data: {
                     options: [
-
-                    ]
-                }
-            },
-            
-            {
-                id: 1,
-                type: "select",
-                question: "From which country are you?",
-                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-                data: {
-                    options: [
-
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
                     ]
                 }
             },
@@ -57,7 +53,11 @@ const tempSurveys = [
                 description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
                 data: {
                     options: [
-
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
                     ]
                 }
             },
@@ -69,7 +69,27 @@ const tempSurveys = [
                 description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
                 data: {
                     options: [
-
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
+                    ]
+                }
+            },
+            
+            {
+                id: 1,
+                type: "select",
+                question: "From which country are you?",
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
+                data: {
+                    options: [
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
+                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
                     ]
                 }
             }

@@ -40,6 +40,7 @@
                 <label for="question_type" class="block text-sm font-medium text-gray-700">
                     Select Question Type
 
+                    <!--//! COMBO BOX DOESN'T WORK SAME AS THE TUTORIAL SHOWS /-->
                     <select name="question_type" id="question_type" v-model="model.type" @change="typeChange" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         <option v-for="type in questionTypes" :key="type" :value="type">
                             {{ upperCaseFirst(type) }}
@@ -73,18 +74,18 @@
                     </button>
                 </h4>
 
-                <!--/ IF QUESTION DOES NOT HAVE OPTIONS /-->
+                <!--/ IF QUESTION DOES NOT HAVE OPTIONS /--><!--/ //! THIS PART HAS BUG /-->
                 <div v-if="!model.data.options.length" class="text-xs text-gray-600 py-3">
                     You don't have options defined
                 </div>
 
                 <!--/ IF QUESTON HAVE OPTIONS /-->
                 <div v-for="(option, index) in model.data.options" :key="option.uuid" class="flex items-center mb-1">
-                    <span class="w-6 text-sm">{{ index + 1 }}}.) </span>
+                    <span class="w-6 text-sm">{{ index + 1 }}.) </span>
                     <input type="text" v-model="option.text" @change="dataChange" class="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-indigo-500">
                     
                     <!--/ DELETE OPTION /-->
-                    <button type="button" @click="removeOption(Option)" class="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-red-100">
+                    <button type="button" @click="removeOption(option)" class="h-6 w-6 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-red-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                         </svg>
@@ -113,6 +114,70 @@
 
     // GET QUESTION TYPES FROM vuex
     const questionTypes = computed(() => store.state.questionTypes)
+
+    // DEFINING FUNCTIONS FOR THIS COMPONENT
+    const upperCaseFirst = (str) => {
+        // GET THE FIRST CHARACTER IN str AND CONVERT IT INTO UPPERCASE THEN CONCATINATE IT TO str WITHOUT THE FIRST CHARACTER
+        return str.charAt(0).toUpperCase() + str.slice(1)
+    } 
+
+    const shouldHaveOptions = () => {
+        // THIS WILL CHECK IF model.value.type IS EQUAL TO select, radio OR checkbox
+        return [ "select", "radio", "checkbox" ].includes(model.value.type)
+    }
+
+    const getOptions = () => {
+        return model.value.data.options
+    }
+
+    const setOptions = (options) => {
+        model.value.data.options = options
+    }
+
+    const addOption = () => {
+        setOptions([
+            ...getOptions(),
+            { uuid: uuidv4(), text: "" }
+        ])
+
+        dataChange()
+    }
+
+    const removeOption = (option) => {
+        // THIS WILL FILTER OUT (REMOVE) option THAT IS NOT EQUAL TO opt
+        // NOTE: filter() WILL CYCLE THROUGH THE DATA INSIDE GET OPTION THAT IS WHY IT HAS ANNOYMOUS FUNCTION INSIDE
+        setOptions(getOptions().filter((opt) => opt != option))
+        dataChange()
+    }
+
+    const typeChange = () => { // ! THIS PART HAS BUG
+        console.log("SHOULD HAVE OPT?: " + shouldHaveOptions())
+        if (shouldHaveOptions())
+        {
+            // THIS WILL GET OPTION IF IT HAS OPTION INSIDE getOptions(), OR ASSIGN AN EMPTY ARRAY IF getOption() IS EMPTY
+            // THIS IS NECESSARY BECAUSE IF QUESTION TYPE IS SELECT OR RADIO THEN IT HAS OPTION, IF THE QUESTION TYPE IS TEXT THEN IT DOESN'T HAVE OPTIONS
+            setOptions(getOptions() || []) 
+            console.log("INSIDE IF: " + setOptions(getOptions() || []) )
+        }
+
+        dataChange()
+        console.log("DATA CHANGE WAS REACHED")
+    }
+
+    // EMIT THE DATA CHANGE (TELL THE PARENT COMPONENT THAT THE DATA CHANGES)
+    const dataChange = () => {
+        // const data = model.value
+        const data = JSON.parse(JSON.stringify(model.value))
+
+        if (!shouldHaveOptions())
+        {
+            console.log(delete data.data.options)
+            delete data.data.options
+            // data.data.options = []
+        }
+
+        emit("change", data)
+    }
 </script>
 
 <style>
