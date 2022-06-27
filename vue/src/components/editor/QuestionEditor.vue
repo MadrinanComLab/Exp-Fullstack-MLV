@@ -75,7 +75,7 @@
                 </h4>
 
                 <!--/ IF QUESTION DOES NOT HAVE OPTIONS /--><!--/ //! THIS PART HAS BUG /-->
-                <div v-if="!model.data.options.length" class="text-xs text-gray-600 py-3">
+                <div v-if="typeof(model.data.options) === 'undefined' || !model.data.options.length" class="text-xs text-gray-600 py-3">
                     You don't have options defined
                 </div>
 
@@ -101,6 +101,7 @@
 <script setup> // setup KEYWORD ENABLES US TO USE COMPOSITION API
     import { ref, computed } from "vue"
     import store from "../../store"
+    import { v4 as uuidv4 } from "uuid"
 
     const props = defineProps({
         question: Object,
@@ -166,17 +167,22 @@
 
     // EMIT THE DATA CHANGE (TELL THE PARENT COMPONENT THAT THE DATA CHANGES)
     const dataChange = () => {
-        // const data = model.value
-        const data = JSON.parse(JSON.stringify(model.value))
+        const data = model.value
 
         if (!shouldHaveOptions())
         {
-            console.log(delete data.data.options)
             delete data.data.options
-            // data.data.options = []
         }
 
         emit("change", data)
+    }
+
+    const addQuestion = () => {
+        emit("addQuestion", props.index + 1)
+    }
+
+    const deleteQuestion = () => {
+        emit("deleteQuestion", props.question)
     }
 </script>
 

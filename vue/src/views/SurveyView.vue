@@ -103,6 +103,7 @@
     import QuestionEditor from "../components/editor/QuestionEditor.vue"
     
     import { useRoute } from "vue-router"
+    import { v4 as uuidv4 } from "uuid"
     import { ref } from "vue"
     import store from "../store"
 
@@ -124,6 +125,41 @@
         model.value = store.state.surveys.find(
             (s) => s.id === parseInt(route.params.id)
         )
+    }
+
+    const addQuestion = (index) => {
+        const newQuestion = {
+            id: uuidv4(),
+            type: "text",
+            question: "",
+            description: null,
+            data: {}
+        }
+
+        // index IS THE QUESTION NUMBER OF THIS NEW QUESTION. 
+        // 0 WAS THE NUMBER OF DATA YOU WANT TO REMOVE FROM THE ARRAY
+        // newQuestion IS THE OBEJECT YOU WANT TO INSERT INSIDE THE ARRAY
+        model.value.questions.splice(index, 0, newQuestion) 
+    }
+
+    const deleteQuestion = (question) => {
+        // REMEMBER, filter() WILL CYCLE THROUGH AN ARRAY AND WE NAME EACH DATA ACCESSED BY FILTER AS q. 
+        // THEN GIVE A CONDITION WHICH DATA WILL BE FILETERED OUT
+        model.value.questions = model.value.questions.filter(
+            (q) => q !== question
+        )
+    }
+
+    const questionChange = (question) => {
+        model.value.questions = model.value.questions.map((q) => {
+            // THE CONDITIONAL STATEMENT WILL LOOK FOR QUESTION THAT IS BEING CHANGE/MODIFY
+            if (q.id === question.id)
+            {
+                return JSON.parse(JSON.stringify(question))
+            }
+
+            return
+        })
     }
 </script>
 
