@@ -138,5 +138,22 @@ FLOW OF CREATING REQUEST (THIS IS WHAT OBSERVED IN CREATING REQUEST FOR AUTHENTI
      EXAMPLE: logout() WAS DEFINE IN DefaultLayout.vue BECAUSE THAT IS WHERE THE LOGOUT BUTTON
 ---> THE FUNCTION ABOVE, THE DATA TO BE MANIPULATED WAS IN vue/src/store/index.js AND TO ACCOMPLISH THIS MANIPULATION FUNCTION HAS TO BE CREATED IN action AND mutations ATTR. INSIDE createStore
 
-STOPS AT: 1:55:32
-BUG NEEDED TO BE ADDRESS AT SELECT QUESTION TYPE COMBO BOX
+AFTER CREATING THE FIELD NEEDED FOR CREATING SURVEY, WE ARE NOW CREATING THE BACKEND FOR SAVING THE SURVEY
+ENTER THESE COMMAND TO NEEDED FOR Survey:
+php artisan make:controller SurveyController --model=Survey --api --requests
+php artisan make:resource SurveyResource
+
+YOU CAN SEE SurveyResource IN app/Http/Resources
+
+AFTER RUNNING THE COMMAND ABOVE, YOU HAVE THESE NEW FILES:
++-----------------------------+----------------------------------------+
+| FILE NAMES                  | DIRECTORY                              |
++-----------------------------+----------------------------------------+
+| SurveyController.php        | app/Http/Controllers                   |
+| StoreSurveyRequest.php      | app/Http/Requests                      |
+| UpdateSurveyRequest.php     | app/Http/Requests                      |
+| SurveyResource.php          | app/Http/Resources                     |
++-----------------------------+----------------------------------------+
+
+ENTER THIS COMMAND FOR SLUG:
+composer require spatie/laravel-sluggable
