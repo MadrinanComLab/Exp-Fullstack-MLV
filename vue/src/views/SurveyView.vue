@@ -166,8 +166,6 @@
     // CREATE OR UPDATE SURVEY
     const saveSurvey = async() => {
         await store.dispatch("saveSurvey", model.value).then( ({ data }) => {
-            // let d = JSON.stringify(data)
-            // console.log(data.data)
 
             router.push({
                 name: "SurveyView",
