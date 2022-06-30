@@ -102,11 +102,12 @@
     import PageComponent from "../components/PageComponent.vue"
     import QuestionEditor from "../components/editor/QuestionEditor.vue"
     
-    import { useRoute } from "vue-router"
+    import { useRoute, useRouter } from "vue-router"
     import { v4 as uuidv4 } from "uuid"
     import { ref } from "vue"
     import store from "../store"
 
+    const router = useRouter()
     const route = useRoute()
 
     // CREATE EMPTY SURVEY
@@ -159,6 +160,19 @@
             }
 
             return
+        })
+    }
+
+    // CREATE OR UPDATE SURVEY
+    const saveSurvey = async() => {
+        await store.dispatch("saveSurvey", model.value).then( ({ data }) => {
+            // let d = JSON.stringify(data)
+            // console.log(data.data)
+
+            router.push({
+                name: "SurveyView",
+                params: { id: data.data.id }
+            })
         })
     }
 </script>

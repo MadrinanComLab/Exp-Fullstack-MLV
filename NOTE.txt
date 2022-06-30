@@ -145,6 +145,9 @@ php artisan make:resource SurveyResource
 
 YOU CAN SEE SurveyResource IN app/Http/Resources
 
+ENTER THIS COMMAND FOR SLUG:
+composer require spatie/laravel-sluggable
+
 AFTER RUNNING THE COMMAND ABOVE, YOU HAVE THESE NEW FILES:
 +-----------------------------+----------------------------------------+
 | FILE NAMES                  | DIRECTORY                              |
@@ -154,6 +157,3 @@ AFTER RUNNING THE COMMAND ABOVE, YOU HAVE THESE NEW FILES:
 | UpdateSurveyRequest.php     | app/Http/Requests                      |
 | SurveyResource.php          | app/Http/Resources                     |
 +-----------------------------+----------------------------------------+
-
-ENTER THIS COMMAND FOR SLUG:
-composer require spatie/laravel-sluggable

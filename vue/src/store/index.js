@@ -1,3 +1,4 @@
+import axios from "axios"
 import { createStore } from "vuex"
 import axiosClient from "../axios"
 
@@ -154,6 +155,32 @@ const store = createStore({
                     commit("logout") // YOU CAN SEE logout IN MUTATION BELOW.
                     return res
                 })
+        },
+
+        saveSurvey({ commit }, survey) {
+            let response;
+
+            if (survey.id) // WE'RE GOING TO UPDATE A SURVEY
+            {
+                response = axiosClient
+                    .put(`/survey/${ survey.id }`, survey)
+                    .then((res) => {
+                        commit("updateSurvey", res.data) // YOU CAN SEE updateSurvey IN THE MUTATION BELOW
+                        return res
+                    })
+            }
+
+            else // WE'RE GOING TO CREATE A NEW SURVEY
+            {
+                response = axiosClient
+                    .post("/survey", survey)
+                    .then((res) => {
+                        commit("saveSurvey", res.data) // YOU CAN SEE saveSurvey IN THE MUTATION BELOW
+                        return res
+                    })
+            }
+
+            return response
         }
     },
     mutations: { // WE CHANGE STATE HERE IN mutations
@@ -167,6 +194,20 @@ const store = createStore({
             state.user.token = userData.token
             state.user.data = userData.user
             sessionStorage.setItem("TOKEN", userData.token)
+        },
+
+        saveSurvey: (state, survey) => {
+            state.surveys = [...state.surveys, survey.data]
+        },
+
+        updateSurvey: (state, survey) => {
+            state.surveys = state.surveys.map((s) => {
+                if (s.id == survey.data.id) 
+                {
+                    return survey.data
+                }
+                return s
+            })
         }
     },
     modules: {}

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SurveyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function() {
         return $request->user();
     });
     Route::post("/logout", [AuthController::class, "logout"]);
+
+    // WE USE Route::resource() BECAUSE WE HAVE THE CRUD OPERATION IN SurveyController::class
     Route::resource("/survey", \App\Http\Controllers\SurveyController::class);
 });
 

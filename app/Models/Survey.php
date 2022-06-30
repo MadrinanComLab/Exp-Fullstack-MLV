@@ -13,7 +13,7 @@ class Survey extends Model
     use HasFactory, HasSlug; // HAS SLUG IS ADDED HERE BECAUSE WE HAVE SLUG ATTRIBUTE IN TABLE Surveys
 
     // THESE ARE THE ATTRIBUTE (OF TABLE Surveys) THAT WILL BE FILLED BY SurveyController.php
-    protected $filable = ["user_id", "title", "slug", "status", "description", "expire_date"];
+    protected $fillable = ["user_id", "title", "slug", "status", "description", "expire_date"];
 
     public function getSlugOptions(): SlugOptions
     {
