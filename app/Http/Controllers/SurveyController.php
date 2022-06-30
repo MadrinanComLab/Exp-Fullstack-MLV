@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateSurveyRequest;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\SurveyResource;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class SurveyController extends Controller
 {
@@ -32,8 +34,19 @@ class SurveyController extends Controller
     //===================================================================================>>> CRUD OPERATION: CREATE
     public function store(StoreSurveyRequest $request) //================================>>> THIS WILL SAVE THE NEWLY CREATED SURVEY
     {
-        $result = Survey::create($request->validated());
-        return new SurveyResource($result);
+        $data = $request->validated();
+
+        # CHECK IF image WAS GIVEN AND SAVE ON LOCAL FILE SYSTEM
+        if (isset($data["image"])) # THIS CHECKING IS NEEDED BECAUSE image IS NOT REQUIRED AND IT CAN BE NULL
+        {
+            # IF $data["image"] IS NOT NULL/EMPTY, THEN WE'RE GOING TO CREATE A FILE SYSTEM FOR IT
+            $relativePath = $this->saveImage($data["image"]);
+            $data["image"] = $relativePath;
+        }
+
+        $survey = Survey::create($data);
+
+        return new SurveyResource($survey);
     }
 
     /**
@@ -88,5 +101,51 @@ class SurveyController extends Controller
 
         $survey->delete();
         return response("", 204);
+    }
+
+    private function saveImage($image)
+    {
+        # CHECK IF $image IS VALID BASE64 STRING
+        if (preg_match("/^data:image\/(\w+);base64,/", $image, $type))
+        {
+            # TAKE OUT THE BASE64 ENCODED TEXT WITHOUT MIME TYPE
+            $image = substr($image, strpos($image, ",") + 1);
+
+            # GET FILE EXTENSION
+            $type = strtolower($type[1]); // jpg, png, gif
+
+            # CHECK IF FILE IS AN IMAGE
+            if (!in_array($type, ["jpg", "jpeg", "gif", "png"]))
+            {
+                throw new \Exception("Invalid image type");
+            }
+
+            $image = str_replace(" ", "+", $image);
+            $image = base64_decode($image);
+
+            if ($image === false)
+            {
+                throw new \Exception("base64_decode failed");
+            }
+        }
+
+        else 
+        {
+            throw new \Exception("Did not match data URI with image data");
+        }
+
+        $directory = "images/"; # IMAGES WILL BE SAVE IN public/images
+        $file = Str::random() . "." . $type;
+        $absolutePath = public_path($directory);
+        $relativePath = $directory . $file;
+
+        if (!File::exists($absolutePath)) # THIS WILL SIMPLY CHECK IF THE DIRECTORY EXIST, IF NOT THEN IT WILL CREATE
+        {
+            File::makeDirectory($absolutePath, 0755, true);
+        }
+
+        file_put_contents($relativePath, $image);
+
+        return $relativePath;
     }
 }
