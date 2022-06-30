@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('surveys', function (Blueprint $table) {
-            $table->string("image", 255); // THIS WILL CREATE A COLUMN IN TABLE 'surveys' NAMED image WITH MAX LENGTH OF 255
+            $table->string("image", 255)->nullable()->after("user_id"); // THIS WILL CREATE A COLUMN IN TABLE 'surveys' NAMED image WITH MAX LENGTH OF 255
         });
     }
 
