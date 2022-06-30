@@ -157,3 +157,13 @@ AFTER RUNNING THE COMMAND ABOVE, YOU HAVE THESE NEW FILES:
 | UpdateSurveyRequest.php     | app/Http/Requests                      |
 | SurveyResource.php          | app/Http/Resources                     |
 +-----------------------------+----------------------------------------+
+
+AFTER WE INITIALLY CREATED SAMPLE SURVEY, NOW LET'S ADD AN IMAGE COLUMN TO SURVEY TABLE
+ENTER THIS COMMAND:
+php artisan make:migration add_image_column_to_surveys_table
+
+THE COMMAND ABOVE WILL CREATE 2022_06_30_122716_add_image_column_to_surveys_table
+IT WAS LOCATED IN database/migrations
+
+AFTER RUNNING THE COMMAND, MODIFY THE FILE ABOVE AND THEN RUN THIS COMMAND:
+php artisan migrate
