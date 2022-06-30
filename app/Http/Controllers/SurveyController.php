@@ -78,7 +78,26 @@ class SurveyController extends Controller
     //===================================================================================>>> CRUD OPERATION: UPDATE
     public function update(UpdateSurveyRequest $request, Survey $survey) //==============>>> THIS WILL UPDATE A RECORD TO THE DATABASE
     {
-        $survey->update($request->validated());
+        # $survey->update($request->validated());
+        $data = $request->validated();
+
+        # CHECK IF IMAGE WAS GIVEN AND SAVE ON LOCAL FILE SYSTEM (THIS WILL BE SIMILAR TO store() FUNCTION)
+        if (isset($data["image"]))
+        {
+            $relativePath = $this->saveImage($data["image"]);
+            $data["image"] = $relativePath;
+
+            # IF THERE IS AN OLD/EXISTING IMAGE, WE'LL GOING TO DELETE IT
+            if ($survey->image)
+            {
+                $absolutePath = public_path($survey->image);
+                File::delete($absolutePath);
+            }
+        }
+
+        # UDPATE SURVEY IN THE DATABASE
+        $survey->update($data);
+
         return new SurveyResource($survey);
     }
 

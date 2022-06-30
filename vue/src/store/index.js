@@ -106,6 +106,11 @@ const store = createStore({
             token: sessionStorage.getItem("TOKEN")
         },
 
+        currentSurvey: {
+            loading: false, // IF THE SURVEY IS IN LOADING STATE
+            data: {}
+        },
+
         surveys: [...tempSurveys],
         questionTypes: [ "text", "select", "radio", "checkbox", "textarea" ]
     },
@@ -159,14 +164,14 @@ const store = createStore({
 
         saveSurvey({ commit }, survey) {
             delete survey.image_url
-            let response;
+            let response
 
             if (survey.id) // WE'RE GOING TO UPDATE A SURVEY
             {
                 response = axiosClient
                     .put(`/survey/${ survey.id }`, survey)
                     .then((res) => {
-                        commit("updateSurvey", res.data) // YOU CAN SEE updateSurvey IN THE MUTATION BELOW
+                        commit("setCurrentSurvey", res.data) // YOU CAN SEE setCurrentSurvey IN THE MUTATION BELOW
                         return res
                     })
             }
@@ -176,12 +181,27 @@ const store = createStore({
                 response = axiosClient
                     .post("/survey", survey)
                     .then((res) => {
-                        commit("saveSurvey", res.data) // YOU CAN SEE saveSurvey IN THE MUTATION BELOW
+                        commit("setCurrentSurvey", res.data) // YOU CAN SEE setCurrentSurvey IN THE MUTATION BELOW
                         return res
                     })
             }
 
             return response
+        },
+
+        getSurvey({ commit }, id) {
+            commit("setCurrentSurveyLoading", true) // setCurrentSurveyLoading WAS DEFINED IN THE mutation BELOW
+
+            return axiosClient.get(`/survey/${ id }`)
+                .then((res) => {
+                    commit("setCurrentSurvey", res.data) // setCurrentSurvey WAS DEFINED IN THE mutation BELOW
+                    commit("setCurrentSurveyLoading", false)
+                    return res
+                })
+                .catch((err) => {
+                    commit("setCurrentSurveyLoading", false)
+                    throw err
+                })
         }
     },
     mutations: { // WE CHANGE STATE HERE IN mutations
@@ -197,18 +217,12 @@ const store = createStore({
             sessionStorage.setItem("TOKEN", userData.token)
         },
 
-        saveSurvey: (state, survey) => {
-            state.surveys = [...state.surveys, survey.data]
+        setCurrentSurveyLoading: (state, loading) => {
+            state.currentSurvey.loading = loading
         },
 
-        updateSurvey: (state, survey) => {
-            state.surveys = state.surveys.map((s) => {
-                if (s.id == survey.data.id) 
-                {
-                    return survey.data
-                }
-                return s
-            })
+        setCurrentSurvey: (state, survey) => {
+            state.currentSurvey.data = survey.data
         }
     },
     modules: {}

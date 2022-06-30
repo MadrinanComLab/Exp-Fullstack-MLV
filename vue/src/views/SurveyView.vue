@@ -104,7 +104,7 @@
     
     import { useRoute, useRouter } from "vue-router"
     import { v4 as uuidv4 } from "uuid"
-    import { ref } from "vue"
+    import { ref, watch } from "vue"
     import store from "../store"
 
     const router = useRouter()
@@ -114,7 +114,7 @@
     let model = ref({
         title: "",
         status: false,
-        image: null,
+        image_url: null,
         description: null,
         expire_date: null,
         questions: []
@@ -123,9 +123,24 @@
     if (route.params.id) // IF ID WAS PASSED TO ROUTE PARAMETERS
     {
         // THEN SET THE VALUE OF model TO SURVEY IN STORE THAT HAS THE SAME ID
-        model.value = store.state.surveys.find(
-            (s) => s.id === parseInt(route.params.id)
+        // model.value = store.state.surveys.find(
+        //     (s) => s.id === parseInt(route.params.id)
+        // )
+
+        // WATCH TO CURRENT SURVEY DATA CHANGE AND WHEN THIS HAPPENS WHEN WE UPDATE LOCAL MODEL
+        // watch() WAS IMPORTED IN THIS PROJECT FROM vue
+        watch(
+            () => store.state.currentSurvey.data,
+            (newVal, oldVal) => {
+                model.value = {
+                    ...JSON.parse(JSON.stringify(newVal)),
+                    status: newVal.status !== "draft" // STATUS IS EITHER ACTIVE OR DRAFT
+                }
+            }
         )
+
+        // THIS WILL MAKE REQUEST AND SAVE THAT INFORMATION IN store/index.js
+        store.dispatch("getSurvey", route.params.id);
     }
 
     // PREVIEWING SELECTED IMAGE
