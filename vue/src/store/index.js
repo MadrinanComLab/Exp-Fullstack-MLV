@@ -2,103 +2,6 @@ import axios from "axios"
 import { createStore } from "vuex"
 import axiosClient from "../axios"
 
-
-const tempSurveys = [
-    {
-        id: 100,
-        title: "Madriñan Computer Lab First 'Real' Fullstack App",
-        slug: "madrian-computer-lab-first-real-fullstack-app",
-        status: "draft",
-        image: "/src/assets/MadriñanComLab.png",
-        description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-        created_at: "2021-12-20 18:00:00",
-        updated_at: "2021-12-20 18:00:00",
-        expire_date: "2021-12-31 18:00:00",
-        questions: [
-            {
-                id: 1,
-                type: "select",
-                question: "From which country are you?",
-                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-                data: {
-                    options: [
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
-                    ]
-                }
-            },
-
-            {
-                id: 1,
-                type: "select",
-                question: "From which country are you?",
-                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-                data: {
-                    options: [
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
-                    ]
-                }
-            },
-            
-            {
-                id: 1,
-                type: "select",
-                question: "From which country are you?",
-                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-                data: {
-                    options: [
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
-                    ]
-                }
-            },
-            
-            {
-                id: 1,
-                type: "select",
-                question: "From which country are you?",
-                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-                data: {
-                    options: [
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
-                    ]
-                }
-            },
-            
-            {
-                id: 1,
-                type: "select",
-                question: "From which country are you?",
-                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas, amet iure doloremque asperiores ea, cupiditate impedit earum, tempora blanditiis hic nam provident. Necessitatibus fugiat facilis perspiciatis repudiandae, veniam corrupti aperiam!",
-                data: {
-                    options: [
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Philippines" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United States" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Canada" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "United Kingdom" },
-                        { uuid: "f8af96f2-1d80-4632-9e9e-b60670e52ea", text: "Germany" }
-                    ]
-                }
-            }
-        ]
-    }
-]
-
-
 const store = createStore({
     state: { // THIS IS WHAT WE CHANGE WHEN WE USE mutations
         user: {
@@ -111,7 +14,11 @@ const store = createStore({
             data: {}
         },
 
-        surveys: [...tempSurveys],
+        surveys: {
+            loading: false,
+            data: []
+        },
+
         questionTypes: [ "text", "select", "radio", "checkbox", "textarea" ]
     },
     getters: {},
@@ -189,7 +96,7 @@ const store = createStore({
             return response
         },
 
-        getSurvey({ commit }, id) {
+        getSurvey({ commit }, id) { //===================================================>>> RETRIEVING "SINGLE" RECORD OF SURVEY
             commit("setCurrentSurveyLoading", true) // setCurrentSurveyLoading WAS DEFINED IN THE mutation BELOW
 
             return axiosClient.get(`/survey/${ id }`)
@@ -207,6 +114,16 @@ const store = createStore({
         deleteSurvey({ }, id) {
             // WE CREATED A DELETE HTTP REQUEST METHOD USING AXIOS
             return axiosClient.delete(`/survey/${ id }`)
+        },
+
+        getSurveys({ commit }) { //===================================================>>> RETRIEVING "MULTIPLE" RECORD OF SURVEY
+            commit("setSurveysLoading", true) // 'setSurveysLoading' IS DEFINED IN mutations
+            return axiosClient.get("/survey")
+                .then((res) => {
+                    commit("setSurveysLoading", false) 
+                    commit("setSurveys", res.data) // 'setSurveys' IS DEFINED IN mutations
+                    return res
+                })
         }
     },
     mutations: { // WE CHANGE STATE HERE IN mutations
@@ -228,7 +145,15 @@ const store = createStore({
 
         setCurrentSurvey: (state, survey) => {
             state.currentSurvey.data = survey.data
-        }
+        },
+
+        setSurveysLoading: (state, loading) => {
+            state.surveys.loading = loading
+        },
+
+        setSurveys: (state, surveys) => {
+            state.surveys.data = surveys.data
+        },
     },
     modules: {}
 })

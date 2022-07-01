@@ -17,7 +17,7 @@
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
             <div v-for="survey in surveys" :key="survey.id" class="flex flex-col py-4 px-6 shadow-md bg-white hover:bg-gray-50 h-[470px]">
                 <!--/ SURVEY IMAGE /-->
-                <img :src="survey.image" alt="" class="w-full h-48 object-cover">
+                <img :src="survey.image_url" alt="" class="w-full h-48 object-cover">
                 
                 <!--/ SURVEY TITLE AND DESC /-->
                 <h4 class="mt-4 text-lg font-bold">{{ survey.title }}</h4>
@@ -49,7 +49,9 @@
     import store from "../store"
     import { computed } from "vue"
 
-    const surveys = computed(() => store.state.surveys)
+    const surveys = computed(() => store.state.surveys.data)
+
+    store.dispatch("getSurveys")
 
     function deleteSurvey(survey)
     {
