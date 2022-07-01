@@ -118,7 +118,17 @@ class SurveyController extends Controller
             return abort(403, "Unauthorized action.");
         }
 
+        # DELETES THE RECORD IN THE DATABASE
         $survey->delete();
+        
+        # DELETES THE IMAGE OF THE SURVEY THAT IS CURRENTLY DELETED
+        # IF THERE IS AN OLD/EXISTING IMAGE, WE'LL GOING TO DELETE IT
+        if ($survey->image)
+        {
+            $absolutePath = public_path($survey->image);
+            File::delete($absolutePath);
+        }
+
         return response("", 204);
     }
 
