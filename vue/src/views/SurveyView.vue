@@ -3,12 +3,16 @@
         <template v-slot:header>
             <div class="flex items-center justify-between">
                 <h1 class="text-3xl font-bold text-gray-900">
-                    {{ model.id ? model.title : "Create a Survey" }}
+                    {{ route.params.id ? model.title : "Create a Survey" }}
                 </h1>
             </div>
         </template>
         
-        <form @submit.prevent="saveSurvey"><!--/ prevent IS A CUSTOM EVENT OF submit THAT WILL PREVENT THE DEFAULT ACTION WHEN USER SUBMIT THE FORM /-->
+        <div v-if="surveyLoading" class="flex justify-center">
+            Loading...
+        </div>
+
+        <form v-else @submit.prevent="saveSurvey"><!--/ prevent IS A CUSTOM EVENT OF submit THAT WILL PREVENT THE DEFAULT ACTION WHEN USER SUBMIT THE FORM /-->
             <div class="shadow sm:rounded-md sm:overflow-hidden">
                 <!--/ SURVEY FIELDS /-->
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -104,11 +108,13 @@
     
     import { useRoute, useRouter } from "vue-router"
     import { v4 as uuidv4 } from "uuid"
-    import { ref, watch } from "vue"
+    import { computed, ref, watch } from "vue"
     import store from "../store"
 
     const router = useRouter()
     const route = useRoute()
+
+    const surveyLoading = computed(() => store.state.currentSurvey.loading)
 
     // CREATE EMPTY SURVEY
     let model = ref({
