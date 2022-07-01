@@ -202,6 +202,11 @@ const store = createStore({
                     commit("setCurrentSurveyLoading", false)
                     throw err
                 })
+        },
+
+        deleteSurvey({ }, id) {
+            // WE CREATED A DELETE HTTP REQUEST METHOD USING AXIOS
+            return axiosClient.delete(`/survey/${ id }`)
         }
     },
     mutations: { // WE CHANGE STATE HERE IN mutations
