@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Http\Resources\SurveyResource;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use App\Models\SurveyQuestion;
+use Illuminate\Support\Facades\Validator;
 
 class SurveyController extends Controller
 {
@@ -45,6 +48,13 @@ class SurveyController extends Controller
         }
 
         $survey = Survey::create($data);
+
+        // CREATE NEW QUESTIONS
+        foreach ($data["questions"] as $question)
+        {
+            $question["survey_id"] = $survey->id;
+            $this->createQuestion($question); // THIS WILL VALIDATE QUESTION AND THEN SAVE IT TO THE DATABASE
+        }
 
         return new SurveyResource($survey);
     }
@@ -176,5 +186,35 @@ class SurveyController extends Controller
         file_put_contents($relativePath, $image);
 
         return $relativePath;
+    }
+
+    private function createQuestion($data)
+    {
+        # ARRAY CONVERTION INTO JSON
+        if (is_array($data["data"]))
+        {
+            # THIS json_encode IS NECCESSARY BECAUSE WE CAN'T SAVE ARRAY TO DATABASE
+            $data["data"] = json_encode($data["data"]);
+        }
+
+        # VALIDATING THE FIELDS
+        $validator = Validator::make($data, [
+            "question" => "required|string",
+            "type" => ["required", Rule::in([ # BECAUSE WE HAVE FIVE DIFFERENT TYPE OF CHOICES PER QUESTION (Text, Select, Radio, Checkbox, Textarea)
+                Survey::TYPE_TEXT,
+                Survey::TYPE_TEXTAREA,
+                Survey::TYPE_SELECT,
+                Survey::TYPE_RADIO,
+                Survey::TYPE_CHECKBOX
+            ])],
+            "description" => "nullable|string",
+            "data" => "present",
+            "survey_id" => "exists:App\Models\Survey,id" # SURVEY ID MUST BE EXISTS IN THE DATABASE
+        ]);
+
+        # SAVING THE QUESTION DATA TO TABLE survey_questions
+        return SurveyQuestion::create($validator->validated());
+
+        # TODO: WE GOT BUG HERE, SO CHECK YOUR CODE AND RESUME THE TUTORIAL AT: 03:03:36
     }
 }

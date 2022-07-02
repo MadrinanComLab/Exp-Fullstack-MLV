@@ -144,6 +144,7 @@ const store = createStore({
         },
 
         setCurrentSurvey: (state, survey) => {
+            console.log("survey")
             state.currentSurvey.data = survey.data
         },
 

@@ -12,6 +12,12 @@ class Survey extends Model
 {
     use HasFactory, HasSlug; // HAS SLUG IS ADDED HERE BECAUSE WE HAVE SLUG ATTRIBUTE IN TABLE Surveys
 
+    const TYPE_TEXT = "text";
+    const TYPE_TEXTAREA = "textarea";
+    const TYPE_SELECT = "select";
+    const TYPE_RADIO = "radio";
+    const TYPE_CHECKBOX = "checkbox";
+
     // THESE ARE THE ATTRIBUTE (OF TABLE Surveys) THAT WILL BE FILLED BY SurveyController.php
     protected $fillable = ["user_id", "image", "title", "slug", "status", "description", "expire_date"];
 
@@ -20,5 +26,10 @@ class Survey extends Model
         return SlugOptions::create()
             ->generateSlugsFrom("title")
             ->saveSlugsTo("slug");
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(SurveyQuestion::class);
     }
 }

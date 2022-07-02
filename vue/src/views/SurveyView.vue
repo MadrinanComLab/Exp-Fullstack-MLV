@@ -22,6 +22,8 @@
         <form v-else @submit.prevent="saveSurvey"><!--/ prevent IS A CUSTOM EVENT OF submit THAT WILL PREVENT THE DEFAULT ACTION WHEN USER SUBMIT THE FORM /-->
             <div class="shadow sm:rounded-md sm:overflow-hidden">
                 <!--/ SURVEY FIELDS /-->
+                {{ model }}
+
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     
                     <!--/ IMAGE /-->
