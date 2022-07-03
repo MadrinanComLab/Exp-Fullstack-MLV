@@ -222,6 +222,10 @@
         console.log("SURVEY DATA RECEIVED IN SurveyView COMPONENT: " + JSON.stringify(model.value))
 
         store.dispatch("saveSurvey", model.value).then( ({ data }) => {
+            store.commit("notify", {
+                type: "success",
+                message: "The survey was successfully updated!"
+            })
 
             router.push({
                 name: "SurveyView",

@@ -23,11 +23,12 @@ const store = createStore({
 
         notification: { // THIS NOTIFICATION WILL BE USED TO NOTIFY USER THAT THE UPDATE WAS SUCCESSFUL
             show: false,
+            type: null,
             message: null
         }
     },
     getters: {},
-    actions: {
+    actions: { // ACTION WILL MAKE REQUEST FROM FRONTEND AND SEND IT TO THE BACKEND
         register({ commit }, user)
         {
             return axiosClient.post(
@@ -162,6 +163,16 @@ const store = createStore({
         setSurveys: (state, surveys) => {
             state.surveys.data = surveys.data
         },
+
+        notify: (state, { message, type }) => {
+            state.notification.show = true
+            state.notification.type = type
+            state.notification.message = message
+
+            setTimeout(() => { // THE NOTIFICATION MESSAGE WILL ONLY BE VISIBLE WITHIN 3 SECONDS
+                state.notification.show = false
+            }, 3000)
+        }
     },
     modules: {}
 })
