@@ -129,20 +129,22 @@
     }
 
     const getOptions = () => {
-        return model.value.data.options
+        return model.value.data.options // || []
     }
 
     const setOptions = (options) => {
         model.value.data.options = options
+        dataChange()
     }
 
     const addOption = () => {
+        console.log("addOption WAS CALLED")
         setOptions([
             ...getOptions(),
-            { uuid: uuidv4(), text: "" }
+            { uuid: uuidv4(), text: "" },
         ])
 
-        dataChange()
+        // dataChange()
     }
 
     const removeOption = (option) => {

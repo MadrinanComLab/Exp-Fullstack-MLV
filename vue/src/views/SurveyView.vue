@@ -96,7 +96,7 @@
                     <!-- {{ model.questions }} -->
                     <div v-for="(question, index) in model.questions || []" :key="question.id">
                         <!--/ NOTE: @change, @addQuestion & @deleteQuestion THESE ARE CUSTOM EVENT THAT WILL BE CALLED FROM CHILD COMPONENT. REMEMBER THE $emit? /-->
-                        <QuestionEditor :question="question" :index="index"  @change="questionChange" @addQuestion="addQuestion(index)" @deleteQuestion="deleteQuestion(index)"/>
+                        <QuestionEditor :question="question" :index="index"  @change="questionChange" @addQuestion="addQuestion" @deleteQuestion="deleteQuestion"/>
                     </div>
                 </div>
 
@@ -189,19 +189,19 @@
         model.value.questions.splice(index, 0, newQuestion) 
     }
 
-    const deleteQuestion = (index) => {
+    const deleteQuestion = (question) => {
+        //TODO REMOVE THIS RUBBISH COMMNETS, BUT ONLY UNNECESSARY COMMENTS
         // alert(question)
         // REMEMBER, filter() WILL CYCLE THROUGH AN ARRAY AND WE NAME EACH DATA ACCESSED BY FILTER AS q. 
         // THEN GIVE A CONDITION WHICH DATA WILL BE FILETERED OUT
-        model.value.questions.splice(index, 1)
+        // model.value.questions.splice(index, 1)
 
-        /* model.value.questions = model.value.questions.filter(
-            (q) => {
-                console.log("q: " + JSON.stringify(q))
-                console.log(question)
-                q.question !== question
-            }
-        )*/
+        // console.log("q: " + q.question)
+        // console.log(question.question)
+        // console.log(q.question != question.question)
+        model.value.questions = model.value.questions.filter(
+            (q) => q.question !== question.question // .question WAS ADDED IN BOTH TWO VARIBLES BECAUSE BOTH HOLDS OBJECT. THIS IS MODIFIED, UNLIKE ON WHAT IS ON THE TUTORIAL
+        )
     }
 
     const questionChange = (question) => {

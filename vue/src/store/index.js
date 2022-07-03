@@ -19,7 +19,12 @@ const store = createStore({
             data: []
         },
 
-        questionTypes: [ "text", "select", "radio", "checkbox", "textarea" ]
+        questionTypes: [ "text", "select", "radio", "checkbox", "textarea" ],
+
+        notification: { // THIS NOTIFICATION WILL BE USED TO NOTIFY USER THAT THE UPDATE WAS SUCCESSFUL
+            show: false,
+            message: null
+        }
     },
     getters: {},
     actions: {
