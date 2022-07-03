@@ -16,6 +16,7 @@ const store = createStore({
 
         surveys: {
             loading: false,
+            links: [], // THIS WILL CONTATIN VALUE ON mutation BELOW, LOOK FOR setSurveys
             data: []
         },
 
@@ -124,9 +125,13 @@ const store = createStore({
             return axiosClient.delete(`/survey/${ id }`)
         },
 
-        getSurveys({ commit }) { //===================================================>>> RETRIEVING "MULTIPLE" RECORD OF SURVEY
+        getSurveys({ commit }, { url = null } = {}) { //===================================================>>> RETRIEVING "MULTIPLE" RECORD OF SURVEY
             commit("setSurveysLoading", true) // 'setSurveysLoading' IS DEFINED IN mutations
-            return axiosClient.get("/survey")
+
+            // { url = null } = {} WAS TO SET A DEFAULT VALUE TO NULL. THIS WAS IN CASE YOU WON'T USING PAGINATION
+            url = url || "/survey" // THIS WILL SET url TO '/survey' IF IT DOESN'T CONTAIN ANY VALUE
+
+            return axiosClient.get(url)
                 .then((res) => {
                     commit("setSurveysLoading", false) 
                     commit("setSurveys", res.data) // 'setSurveys' IS DEFINED IN mutations
@@ -161,6 +166,7 @@ const store = createStore({
         },
 
         setSurveys: (state, surveys) => {
+            state.surveys.links = surveys.meta.links // WE'RE ABLE TO DO THIS BECAUSE IN SurveyController.php WE USE paginate IN index()
             state.surveys.data = surveys.data
         },
 

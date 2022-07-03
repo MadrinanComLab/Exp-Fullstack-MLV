@@ -26,7 +26,7 @@ class SurveyController extends Controller
     public function index(Request $request) //===========================================>>> THIS WILL RETRIEVE THE SURVEY
     {
         $user = $request->user();
-        return SurveyResource::collection(Survey::where("user_id", $user->id)->paginate(50));
+        return SurveyResource::collection(Survey::where("user_id", $user->id)->paginate(5));
     }
 
     /**
@@ -39,7 +39,6 @@ class SurveyController extends Controller
     public function store(StoreSurveyRequest $request) //================================>>> THIS WILL SAVE THE NEWLY CREATED SURVEY
     {
         $data = $request->validated();
-        # echo $data;
 
         # CHECK IF image WAS GIVEN AND SAVE ON LOCAL FILE SYSTEM
         if (isset($data["image"])) # THIS CHECKING IS NEEDED BECAUSE image IS NOT REQUIRED AND IT CAN BE NULL
@@ -254,8 +253,6 @@ class SurveyController extends Controller
 
         # SAVING THE QUESTION DATA TO TABLE survey_questions
         return SurveyQuestion::create($validator->validated());
-
-        # TODO: WE GOT BUG HERE, SO CHECK YOUR CODE AND RESUME THE TUTORIAL AT: 03:03:36
     }
 
     private function updateQuestion(SurveyQuestion $question, $data)
