@@ -73,6 +73,8 @@ const store = createStore({
             delete survey.image_url
             let response
 
+            console.log("SURVEY VALUE RECEIVED IN store: " + survey)
+
             if (survey.id) // WE'RE GOING TO UPDATE A SURVEY
             {
                 response = axiosClient

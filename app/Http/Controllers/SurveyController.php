@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Models\SurveyQuestion;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Arr;
 
 class SurveyController extends Controller
 {
@@ -25,7 +26,7 @@ class SurveyController extends Controller
     public function index(Request $request) //===========================================>>> THIS WILL RETRIEVE THE SURVEY
     {
         $user = $request->user();
-        return SurveyResource::collection(Survey::where("user_id", $user->id)->paginate());
+        return SurveyResource::collection(Survey::where("user_id", $user->id)->paginate(50));
     }
 
     /**
@@ -38,6 +39,7 @@ class SurveyController extends Controller
     public function store(StoreSurveyRequest $request) //================================>>> THIS WILL SAVE THE NEWLY CREATED SURVEY
     {
         $data = $request->validated();
+        # echo $data;
 
         # CHECK IF image WAS GIVEN AND SAVE ON LOCAL FILE SYSTEM
         if (isset($data["image"])) # THIS CHECKING IS NEEDED BECAUSE image IS NOT REQUIRED AND IT CAN BE NULL
@@ -107,6 +109,44 @@ class SurveyController extends Controller
 
         # UDPATE SURVEY IN THE DATABASE
         $survey->update($data);
+
+        # GET IDs AS PLAIN ARRAY OF EXISTING QUESTIONS
+        $exisitingIds = $survey->questions()->pluck("id")->toArray(); # THESE ARE FROM DATABASE
+
+        # GET IDs AS PLAIN ARRAY OF NEW QUESTIONS
+        $newIds = Arr::pluck($data["questions"], "id"); # THESE ARE FROM THE REQUEST
+
+        # FIND QUESTIONS TO DELETE
+        # IF $exisitingIds IS NOT PRESENT IN $newIds THEN THESE ARE THE QUESTIONS TO BE DELETED
+        $toDelete = array_diff($exisitingIds, $newIds);
+
+        # FIND QUESTIONS TO ADD
+        # IF $newIds DOES NOT EXIST IN $exisitingIds THEN THESE ARE THE QUESTION YOU WILL ADD TO THE DATABASE
+        $toAdd = array_diff($newIds, $exisitingIds); 
+
+        # DELETE QUESTIONS BY $toDelete ARRAY
+        SurveyQuestion::destroy($toDelete);
+
+        # CREATE NEW QUESTIONS
+        foreach ($data["questions"] as $question)
+        {
+            # SINCE WE FOREACH IN $data, THE CONDITIONAL STATEMENT WILL CHECK IF THE CURRENT ITEM IN THIS LOOP IS PRESENT IN $toAdd
+            if (in_array($question["id"], $toAdd))
+            {
+                $question["survey_id"] = $survey->id;
+                $this->createQuestion($question);
+            }
+        }
+
+        #UPDATE EXISTING QUESTIONS
+        $questionMap = collect($data["questions"])->keyBy("id");
+        foreach($survey->questions as $question)
+        {
+            if (isset($questionMap[$question->id]))
+            {
+                $this->updateQuestion($question, $questionMap[$question->id]);
+            }
+        }
 
         return new SurveyResource($survey);
     }
@@ -216,5 +256,29 @@ class SurveyController extends Controller
         return SurveyQuestion::create($validator->validated());
 
         # TODO: WE GOT BUG HERE, SO CHECK YOUR CODE AND RESUME THE TUTORIAL AT: 03:03:36
+    }
+
+    private function updateQuestion(SurveyQuestion $question, $data)
+    {
+        if (is_array($data["data"]))
+        {
+            $data["data"] = json_encode($data["data"]);
+        }
+
+        $validator = Validator::make($data, [
+            "id" => "exists:App\Models\SurveyQuestion,id",
+            "question" => "required|string",
+            "type" => ["required", Rule::in([
+                Survey::TYPE_TEXT,
+                Survey::TYPE_TEXTAREA,
+                Survey::TYPE_SELECT,
+                Survey::TYPE_RADIO,
+                Survey::TYPE_CHECKBOX
+            ])],
+            "description" => "nullable|string",
+            "data" => "present",
+        ]);
+
+        return $question->update($validator->validated());
     }
 }

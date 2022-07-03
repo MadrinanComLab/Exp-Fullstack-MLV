@@ -22,10 +22,10 @@
         <form v-else @submit.prevent="saveSurvey"><!--/ prevent IS A CUSTOM EVENT OF submit THAT WILL PREVENT THE DEFAULT ACTION WHEN USER SUBMIT THE FORM /-->
             <div class="shadow sm:rounded-md sm:overflow-hidden">
                 <!--/ SURVEY FIELDS /-->
-                {{ model }}
 
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                    
+                    <!-- {{ model }} -->
+
                     <!--/ IMAGE /-->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Image</label>
@@ -93,10 +93,10 @@
                     <div v-if="!model.questions.length" class="text-center text-gray-600">
                         You don't have any questions created
                     </div>
-
-                    <div v-for="(question, index) in model.questions" :key="question.id">
+                    <!-- {{ model.questions }} -->
+                    <div v-for="(question, index) in model.questions || []" :key="question.id">
                         <!--/ NOTE: @change, @addQuestion & @deleteQuestion THESE ARE CUSTOM EVENT THAT WILL BE CALLED FROM CHILD COMPONENT. REMEMBER THE $emit? /-->
-                        <QuestionEditor :question="question" :index="index"  @change="questionChange" @addQuestion="addQuestion" @deleteQuestion="deleteQuestion"/>
+                        <QuestionEditor :question="question" :index="index"  @change="questionChange" @addQuestion="addQuestion(index)" @deleteQuestion="deleteQuestion(index)"/>
                     </div>
                 </div>
 
@@ -180,7 +180,7 @@
             type: "text",
             question: "",
             description: null,
-            data: {}
+            data: {},
         }
 
         // index IS THE QUESTION NUMBER OF THIS NEW QUESTION. 
@@ -189,15 +189,23 @@
         model.value.questions.splice(index, 0, newQuestion) 
     }
 
-    const deleteQuestion = (question) => {
+    const deleteQuestion = (index) => {
+        // alert(question)
         // REMEMBER, filter() WILL CYCLE THROUGH AN ARRAY AND WE NAME EACH DATA ACCESSED BY FILTER AS q. 
         // THEN GIVE A CONDITION WHICH DATA WILL BE FILETERED OUT
-        model.value.questions = model.value.questions.filter(
-            (q) => q !== question
-        )
+        model.value.questions.splice(index, 1)
+
+        /* model.value.questions = model.value.questions.filter(
+            (q) => {
+                console.log("q: " + JSON.stringify(q))
+                console.log(question)
+                q.question !== question
+            }
+        )*/
     }
 
     const questionChange = (question) => {
+        console.log("COUNTER PART OF dataChange() WAS CALLED")
         model.value.questions = model.value.questions.map((q) => {
             // THE CONDITIONAL STATEMENT WILL LOOK FOR QUESTION THAT IS BEING CHANGE/MODIFY
             if (q.id === question.id)
@@ -205,13 +213,15 @@
                 return JSON.parse(JSON.stringify(question))
             }
 
-            return
+            return q
         })
     }
 
     // CREATE OR UPDATE SURVEY
-    const saveSurvey = async() => {
-        await store.dispatch("saveSurvey", model.value).then( ({ data }) => {
+    const saveSurvey = () => {
+        console.log("SURVEY DATA RECEIVED IN SurveyView COMPONENT: " + JSON.stringify(model.value))
+
+        store.dispatch("saveSurvey", model.value).then( ({ data }) => {
 
             router.push({
                 name: "SurveyView",

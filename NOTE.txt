@@ -192,3 +192,232 @@ WE ALSO MODIFY THE FF. FILES:
 Survey.php
 SurveyQuestion.php
 SurveyResource.php
+
+RUN THIS COMMAND TO RUN uuidv4:
+npm i -S uuid
+
+STOPS AT: 03:20:18
+ISSUES:
+- CREATING MULTIPLE QUESTION WAS FAILING. SOME SCENARIOS WAS WRITTEN IN YELLOW PAPER
+- UPDATING WAS SUCCESSFUL BUT UNABLE TO ADD NEW ONE BECAUSE PREVIOUS QUESTION BECAME EMPTY. 
+  YOU CAN SEE THAT WHEN YOU TRY TO ADD NEW QUESTION AND SEE ON PAYLOAD ON NETWORK
+
+//===================================================================>>> SCENARIO I (START):
+VALUES HOLD BY model DISPLAYED FROM BROWSER: // QUESTION 2 HAS VALUE BUT VALUE FOR question[1].question IS EMPTY. THIS HAS VALUE WHEN WE SUBMIT IT
+{ 
+     "title": "Survey Tiitle", 
+     "status": false, 
+     "image_url": null, 
+     "description": "Survey Description", 
+     "expire_date": null, 
+     "questions": [ 
+          { 
+               "id": "3ab8ec52-cd3f-4b87-b254-956f712d9468", 
+               "type": "text", 
+               "question": "Question 1", 
+               "description": null, 
+               "data": {} 
+          }, 
+          
+          { 
+               "id": "c80c883f-84f7-40e0-a35c-72fcf3156423", 
+               "type": "text", 
+               "question": "", 
+               "description": null, 
+               "data": {} 
+          } 
+     ] 
+}
+
+SURVEY DATA RECEIVED IN SurveyView COMPONENT: 
+{
+     "title":"Survey Tiitle",
+     "status":false,
+     "image_url":null,
+     "description":"Survey Description",
+     "expire_date":null,
+     "questions":[
+          null,
+          {
+               "id":"c80c883f-84f7-40e0-a35c-72fcf3156423",
+               "type":"text",
+               "question":"Question 2",
+               "description":null,
+               "data":{}
+          }
+     ]
+}
+
+SURVEY VALUE RECEIVED IN store: // DOES NOT HAVE image_url BUT ALL IS SIMILAR TO WHAT SurveyView COMPONENT SENT
+{
+     "title":"Survey Tiitle",
+     "status":false,
+     "description":"Survey Description",
+     "expire_date":null,
+     "questions":[
+          null,
+          {
+               "id":"c80c883f-84f7-40e0-a35c-72fcf3156423",
+               "type":"text",
+               "question":"Question 2",
+               "description":null,
+               "data":{}
+          }
+     ]
+}
+//===================================================================>>> SCENARIO I (END):
+
+//===================================================================>>> SCENARIO II (START):
+I TRIED JSON.stringify() AND JSON.parse() TO AVOID THE CHANGES IN QUESTIONS VALUE BUT NOTHING WORKED
+
+VALUES HOLD BY model DISPLAYED FROM BROWSER: // ALL THREE QUESTIONS ARE EMPTY. THIS HAS VALUE WHEN WE SUBMIT IT
+{ 
+     "title": "Survey Demo", 
+     "status": false, 
+     "image_url": null, 
+     "description": "Survey Description", 
+     "expire_date": null, 
+     "questions": [ 
+          { 
+               "id": "0e7bb75a-f98e-49f1-8a40-908706a7be00", 
+               "type": "text", 
+               "question": "", 
+               "description": null, 
+               "data": {} 
+          }, 
+          { 
+               "id": "ce9bb17f-0d9e-4e94-b106-d97444ab8da0", 
+               "type": "text", 
+               "question": "", 
+               "description": null, 
+               "data": {} 
+          }, 
+          { 
+               "id": "46fa7271-1912-4e3a-84a7-856552aeb128", 
+               "type": "text", 
+               "question": "", 
+               "description": null, 
+               "data": {} 
+          } 
+     ] 
+}
+
+SURVEY DATA RECEIVED IN SurveyView COMPONENT: 
+{
+     "title":"Survey Demo",
+     "status":false,
+     "image_url":null,
+     "description":"Survey Description",
+     "expire_date":null,
+     "questions":[
+          {
+               "id":"0e7bb75a-f98e-49f1-8a40-908706a7be00",
+               "type":"text",
+               "question":"Question #1",
+               "description":null,
+               "data":{}
+          },
+          null,
+          null
+     ]
+}
+
+SURVEY VALUE RECEIVED IN store:
+{
+     \"title\":\"Survey Demo\",
+     \"status\":false,
+     \"image_url\":null,
+     \"description\":\"Survey Description\",
+     \"expire_date\":null,
+     \"questions\":[
+          {
+               \"id\":\"0e7bb75a-f98e-49f1-8a40-908706a7be00\",
+               \"type\":\"text\",
+               \"question\":\"Question #1\",
+               \"description\":null,
+               \"data\":{}
+          },
+          null,
+          null
+     ]
+}"
+//===================================================================>>> SCENARIO II (END):
+
+//===================================================================>>> SCENARIO III (START):
+CHANGED THIS quesion_text_ INTO question_text_ IN QuestionEditor.vue
+
+VALUES HOLD BY model DISPLAYED FROM BROWSER:
+{ 
+     "title": "Survey Title", 
+     "status": false, 
+     "image_url": null, 
+     "description": "Survey Description", 
+     "expire_date": null, 
+     "questions": [ 
+          { 
+               "id": "753f4e5d-128f-4121-92cd-81e8a8ebc80c", 
+               "type": "text", 
+               "question": "Question 1", 
+               "description": null, 
+               "data": {} 
+          }, 
+          { 
+               "id": "28f22018-a627-43b3-b788-beafe2ad5574", 
+               "type": "text", "question": "", 
+               "description": null, 
+               "data": {} 
+          }, 
+          { 
+               "id": "ce95a066-4de2-4ba5-8e42-c94668a92738", 
+               "type": "text", 
+               "question": "", 
+               "description": null, 
+               "data": {} 
+          } 
+     ] 
+}
+
+SURVEY DATA RECEIVED IN SurveyView COMPONENT: 
+{
+     "title":"Survey Title",
+     "status":false,
+     "image_url":null,
+     "description":"Survey Description",
+     "expire_date":null,
+     "questions":[
+          null,
+          {
+               "id":"28f22018-a627-43b3-b788-beafe2ad5574",
+               "type":"text",
+               "question":"Question 2",
+               "description":null,
+               "data":{}
+          },
+          null
+     ]
+}
+
+SURVEY VALUE RECEIVED IN store:
+{
+     \"title\":\"Survey Title\",
+     \"status\":false,
+     \"image_url\":null,
+     \"description\":\"Survey Description\",
+     \"expire_date\":null,
+     \"questions\":[
+          null,
+          {
+               \"id\":\"28f22018-a627-43b3-b788-beafe2ad5574\",
+               \"type\":\"text\",
+               \"question\":\"Question 2\",
+               \"description\":null,
+               \"data\":{}
+          },
+          null
+     ]
+}"
+
+CONCLUSION: POSSIBLE ERROR WAS IN QuestionEditor.vue OR CONNECTION OF QuestionEditor.vue AND SurveyView.vue
+//===================================================================>>> SCENARIO III (END):
+
+KEEP HOSTILITIES ON QuestionEditor.vue, IT HAS ERROR ON ADD AND DELETE OF EACH QUESTION WHEN IT HAS DATA ON IT BUT WORKS FINE WHEN EMPTY

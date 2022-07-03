@@ -16,7 +16,7 @@
                 </button>
 
                 <!--/ DELETE QUESTION /-->
-                <button type="button" @click="deleteQuestion" class="flex items-center text-xs py-1 px-3 mr-2 rounded border border-transparent text-red-500 hover:text-red-600">
+                <button type="button" @click="deleteQuestion" class="flex items-center text-xs py-1 px-3 mr-2 rounded-sm border border-transparent text-red-500 hover:text-red-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                     </svg>
@@ -24,29 +24,30 @@
                 </button>
             </div>
         </div>
-
+        
         <div class="grid gap-3 grid-cols-12">
             <!--/ QUESTION /-->
             <div class="mt-3 col-span-9">
-                <label :for="'quesion_text_' + model.data" class="block text-sm font-medium text-gray-700">
+                <!--/ 'question_text_' + model.data THIS WAS REPLACE BY 'question_text_' + index /-->
+                <label :for="'question_text_' + index" class="block text-sm font-medium text-gray-700">
                     Question Text
                 </label>
 
-                <input type="text" :name="'quesion_text_' + model.data" :id="'quesion_text_' + model.data" v-model="model.question" @change="dataChange" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                <input type="text" :name="'question_text_' + index" :id="'question_text_' + index" v-model="model.question" @change="dataChange" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
 
             <!--/ QUESTION TYPE /-->
             <div class="mt-3 col-span-3">
                 <label for="question_type" class="block text-sm font-medium text-gray-700">
                     Select Question Type
-
-                    <!--//! COMBO BOX DOESN'T WORK SAME AS THE TUTORIAL SHOWS /-->
-                    <select name="question_type" id="question_type" v-model="model.type" @change="typeChange" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option v-for="type in questionTypes" :key="type" :value="type">
-                            {{ upperCaseFirst(type) }}
-                        </option>
-                    </select>
                 </label>
+
+                <!--//! COMBO BOX DOESN'T WORK SAME AS THE TUTORIAL SHOWS /-->
+                <select name="question_type" id="question_type" v-model="model.type" @change="typeChange" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option v-for="type in questionTypes" :key="type" :value="type">
+                        {{ upperCaseFirst(type) }}
+                    </option>
+                </select>
             </div>
         </div>
         
@@ -108,7 +109,7 @@
         index: Number
     })
 
-    const emit = defineEmits(["change", "addQuestion", "deleteQuestions"])
+    const emit = defineEmits(["change", "addQuestion", "deleteQuestion"])
 
     // RECREATE THE WHOLE QUESTION DATA TO AVOID UNINTENTIONAL REFERENCE CHANGE
     const model = ref(JSON.parse(JSON.stringify(props.question)))
@@ -147,7 +148,7 @@
     const removeOption = (option) => {
         // THIS WILL FILTER OUT (REMOVE) option THAT IS NOT EQUAL TO opt
         // NOTE: filter() WILL CYCLE THROUGH THE DATA INSIDE GET OPTION THAT IS WHY IT HAS ANNOYMOUS FUNCTION INSIDE
-        setOptions(getOptions().filter((opt) => opt != option))
+        setOptions(getOptions().filter((opt) => opt !== option))
         dataChange()
     }
 
@@ -167,7 +168,9 @@
 
     // EMIT THE DATA CHANGE (TELL THE PARENT COMPONENT THAT THE DATA CHANGES)
     const dataChange = () => {
+        console.log("dataChange() WAS CALLED IN QuestionEditor")
         const data = model.value
+        // const data = JSON.parse(JSON.stringify(model.value))
 
         if (!shouldHaveOptions())
         {
