@@ -19,7 +19,7 @@
             Loading...
         </div>
 
-        <form v-else @submit.prevent="saveSurvey"><!--/ prevent IS A CUSTOM EVENT OF submit THAT WILL PREVENT THE DEFAULT ACTION WHEN USER SUBMIT THE FORM /-->
+        <form v-else @submit.prevent="saveSurvey" class="animate-fade-in-down"><!--/ prevent IS A CUSTOM EVENT OF submit THAT WILL PREVENT THE DEFAULT ACTION WHEN USER SUBMIT THE FORM /-->
             <div class="shadow sm:rounded-md sm:overflow-hidden">
                 <!--/ SURVEY FIELDS /-->
 
